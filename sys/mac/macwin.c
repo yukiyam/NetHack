@@ -19,6 +19,8 @@
 #include <TextUtils.h>
 #include <DiskInit.h>
 #include <ControlDefinitions.h>
+#else
+#include <CarbonStdCLib.h>
 #endif
 
 /**********************************************************************
@@ -437,6 +439,17 @@ InitMac(void)
 
 #if TARGET_API_MAC_CARBON
     HGetVol(volName, &theDirs.dataRefNum, &theDirs.dataDirID);
+#if defined(__MRC__)
+    {
+        char *path[1024];
+        FSSpec fsp;
+        FSRef fsr;
+        FSMakeFSSpec(theDirs.dataRefNum, theDirs.dataDirID, nil, &fsp);
+        FSpMakeFSRef(&fsp, &fsr);
+        FSRefMakePath(&fsr, (UInt8 *)path, sizeof(path));
+        bsd_chdir(path);
+    }
+#endif
 #else
     /*
      * We should try to get this data from a rsrc, in the profile file
