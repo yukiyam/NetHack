@@ -28,7 +28,7 @@
 static void finder_file_request(void);
 int main(void);
 
-#if __SC__ || __MRC__
+#if (__SC__ || __MRC__) && !TARGET_API_MAC_CARBON
 QDGlobals qd;
 #endif
 

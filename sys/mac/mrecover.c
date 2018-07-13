@@ -66,6 +66,12 @@ pascal OSErr GetIconSuite(Handle *theIconSuite, short theResID,
                           long selector) = { 0x303C, 0x0501, 0xABC9 };
 #endif
 
+#if defined(__SC__) || defined(__MRC__)
+
+QDGlobals qd;
+
+#endif
+
 /**** Application defines ****/
 
 /* Memory */
