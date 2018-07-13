@@ -786,7 +786,7 @@ function_call	: NQSTRING '(' func_call_params_list ')'
 			  long nparams = strlen( $3 );
 			  char *fparamstr = funcdef_paramtypes(tmpfunc);
 			  if (strcmp($3, fparamstr)) {
-			      char *tmps = strdup(decode_parm_str(fparamstr));
+			      char *tmps = dupstr(decode_parm_str(fparamstr));
 			      lc_error("Function '%s' requires params '%s', got '%s' instead.", $1, tmps, decode_parm_str($3));
 			      Free(tmps);
 			  }
@@ -1002,7 +1002,7 @@ forstmt_start	: FOR_ID any_var_or_unk '=' math_expr_var for_to_span math_expr_va
 		      add_opvars(splev, "iso",
 				 VA_PASS3(0, buf2, SPO_VAR_INIT));
 
-		      forloop_list[n_forloops].varname = strdup($2);
+		      forloop_list[n_forloops].varname = dupstr($2);
 		      forloop_list[n_forloops].jmp_point = splev->n_opcodes;
 
 		      n_forloops++;
@@ -2382,7 +2382,7 @@ func_param_part	: any_var_or_arr ':' func_param_type
 		      } else {
 			  long vt = SPOVAR_NULL;
 
-			  tmp->name = strdup($1);
+			  tmp->name = dupstr($1);
 			  tmp->parmtype = (char) $3;
 			  tmp->next = curr_function->params;
 			  curr_function->params = tmp;
@@ -2430,7 +2430,7 @@ func_call_param_list   	: func_call_param_part
 			      char tmpbuf[2];
 			      tmpbuf[0] = (char) $1;
 			      tmpbuf[1] = '\0';
-			      $$ = strdup(tmpbuf);
+			      $$ = dupstr(tmpbuf);
 			  }
 			| func_call_param_list ',' func_call_param_part
 			  {
@@ -2444,11 +2444,11 @@ func_call_param_list   	: func_call_param_part
 
 func_call_params_list	: /* nothing */
 			  {
-			      $$ = strdup("");
+			      $$ = dupstr("");
 			  }
 			| func_call_param_list
 			  {
-			      char *tmp = strdup( $1 );
+			      char *tmp = dupstr( $1 );
 			      Free( $1 );
 			      $$ = tmp;
 			  }

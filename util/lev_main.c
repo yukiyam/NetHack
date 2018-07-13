@@ -580,7 +580,7 @@ const char *val;
 {
     if (ov) {
         ov->spovartyp = SPOVAR_STRING;
-        ov->vardata.str = (val) ? strdup(val) : NULL;
+        ov->vardata.str = (val) ? dupstr(val) : NULL;
     }
     return ov;
 }
@@ -592,7 +592,7 @@ const char *val;
 {
     if (ov) {
         ov->spovartyp = SPOVAR_VARIABLE;
-        ov->vardata.str = (val) ? strdup(val) : NULL;
+        ov->vardata.str = (val) ? dupstr(val) : NULL;
     }
     return ov;
 }
@@ -781,7 +781,7 @@ char *name;
     }
     f->next = NULL;
     f->addr = addr;
-    f->name = strdup(name);
+    f->name = dupstr(name);
     f->n_called = 0;
     f->n_params = 0;
     f->params = NULL;
@@ -863,7 +863,7 @@ char *name;
     }
     f->next = NULL;
     f->var_type = typ;
-    f->name = strdup(name);
+    f->name = dupstr(name);
     f->n_used = 0;
     return f;
 }
