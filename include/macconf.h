@@ -46,6 +46,8 @@
 #define DEBUG 1
 #endif
 
+#undef SYSCF
+
 /* Use these two includes instead of system.h. */
 #include <string.h>
 #include <stdlib.h>
