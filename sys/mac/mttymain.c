@@ -295,7 +295,7 @@ tgetch(void)
 }
 
 void
-getreturn(char *str)
+getreturn(const char *str)
 {
     FlushEvents(-1, 0);
     msmsg("Press space %s", str);
