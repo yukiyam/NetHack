@@ -1373,7 +1373,7 @@ mac_destroy_nhwindow(winid win)
     }
     if (win == WIN_INVEN || win == WIN_MESSAGE) {
         if (iflags.window_inited) {
-            if (flags.tombstone && killer[0]) {
+            if (flags.tombstone && killer.name[0]) {
                 /* Prepare for the coming of the tombstone window. */
                 win_fonts[NHW_TEXT] = kFontIDMonaco;
             }
@@ -1825,7 +1825,7 @@ mac_putstr(winid win, int attr, const char *str)
     if (win == WIN_MESSAGE) {
         r.right -= SBARWIDTH;
         r.bottom -= SBARHEIGHT;
-        if (flags.page_wait
+        if (sysflags.page_wait
             && aWin->last_more_lin
                    <= aWin->y_size - (r.bottom - r.top) / aWin->row_height) {
             aWin->last_more_lin = aWin->y_size;
@@ -3275,7 +3275,13 @@ struct window_procs mac_procs = {
     /* other defs that really should go away (they're tty specific) */
     0, //    mac_start_screen,
     0, //    mac_end_screen,
-    genl_outrip, genl_preference_update, genl_can_suspend_no,
+    genl_outrip, genl_preference_update, genl_getmsghistory,
+    genl_putmsghistory,
+    genl_status_init,
+    genl_status_finish,
+    genl_status_enablefield,
+    genl_status_update,
+    genl_can_suspend_no,
 };
 
 /*macwin.c*/
