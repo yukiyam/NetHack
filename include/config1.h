@@ -39,6 +39,7 @@
 
 #ifdef macintosh /* Auto-defined symbol for MPW compilers (sc and mrc) */
 #define MAC
+#define USE_STDARG
 #endif
 
 #ifdef THINK_C /* Think C auto-defined symbol */
