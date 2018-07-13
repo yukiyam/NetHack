@@ -40,6 +40,12 @@
 #define TEXTCOLOR /* For Mac TTY interface */
 #define CHANGE_COLOR
 
+#ifdef DEBUG
+/* DEBUG macro conflicts on Debugging.h */
+#undef DEBUG
+#define DEBUG 1
+#endif
+
 /* Use these two includes instead of system.h. */
 #include <string.h>
 #include <stdlib.h>
@@ -60,7 +66,9 @@
 #else
 /* Avoid including <fenv.h> -- it uses GENERATINGPOWERPC */
 #define __FENV__
+#ifdef __MWERKS__
 #include <machine/types.h>
+#endif
 #include <Carbon.h>
 #endif
 #else
@@ -104,6 +112,12 @@ extern void error(const char *, ...);
 #define unlink _unlink
 #endif
 #endif
+
+/* extended is a data type for extended precision float on some compilers */
+#define extended extended_
+
+/* struct strbuf conflicts with OpenTransport */
+#define strbuf winstrbuf
 
 #define YY_NEVER_INTERACTIVE 1
 
