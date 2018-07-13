@@ -332,7 +332,7 @@ NetHack  ÄÄ  {ObjFiles-PPC} {LibFiles-Carbon-PPC} {¥MondoBuild¥}
 
 
 NetHack  ÄÄ  :sys:mac:Files.r {¥MondoBuild¥}
-	Rez :sys:mac:Files.r -d TARGET_API_MAC_CARBON=1 -o {Targ} {Includes} -append
+	Rez :sys:mac:Files.r -d TARGET_API_MAC_CARBON=1 -d DIRPATH='":::Dungeon:"' -o {Targ} {Includes} -append
 
 NetHack  ÄÄ  :sys:mac:NetHack.rsrc {¥MondoBuild¥}
 	Echo "Include ¶":sys:mac:NetHack.rsrc¶";" | Rez -o {Targ} -append
