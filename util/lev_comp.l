@@ -117,19 +117,25 @@ FILE *orig_yyin = NULL;
 		  map_cnt = 0;
 		  return MAP_ID;
 		}
-<MAPC>[-|}{+xABCISHKPLWTF\\#. 0123456789]*\r?\n	{
+<MAPC>[-|}{+xABCISHKPLWTF\\#. 0123456789]*(\r?\n|\r)	{
 		  int len = yyleng;
 		  savetoken(yytext);
 		  /* convert \r\n to \n */
+#ifdef MAC
+		  /* should not be affected by -noMapCR/-mapCR */
+		  if (len >= 2 && yytext[len - 2] == '\015')
+		      len -= 1;
+#else
 		  if (len >= 2 && yytext[len - 2] == '\r')
 		      len -= 1;
+#endif
 		  (void) strncpy(map + map_cnt, yytext, len);
 		  map_cnt += len;
 		  map[map_cnt - 1] = '\n';
 		  map[map_cnt] = '\0';
 		  newline();
 		}
-^[ \t]*#.*\n	{ savetoken(yytext); newline(); }
+^[ \t]*#.*(\r?\n|\r)	{ savetoken(yytext); newline(); }
 MESSAGE		ST_RET(MESSAGE_ID);
 NOMAP		ST_RET(NOMAP_ID);
 MAZE		ST_RET(MAZE_ID);
@@ -141,7 +147,7 @@ mines		ST_RET(MINES_ID);
 rogue		ST_RET(ROGUELEV_ID);
 FLAGS		ST_RET(FLAGS_ID);
 GEOMETRY	ST_RET(GEOMETRY_ID);
-^MAP\r?\n	{ savetoken(yytext); BEGIN(MAPC); newline(); }
+^MAP(\r?\n|\r)	{ savetoken(yytext); BEGIN(MAPC); newline(); }
 obj(ect)?	ST_RET(object_ID);
 OBJECT		ST_RET(OBJECT_ID);
 CONTAINER	ST_RET(COBJECT_ID);
@@ -339,7 +345,7 @@ inaccessibles   { savetoken(yytext); yylval.i=CHECK_INACCESSIBLES; return FLAG_T
 ">="		{ savetoken(yytext); yylval.i = SPO_JGE; return COMPARE_TYPE; }
 "<"		{ savetoken(yytext); yylval.i = SPO_JL; return COMPARE_TYPE; }
 ">"		{ savetoken(yytext); yylval.i = SPO_JG; return COMPARE_TYPE; }
-\r?\n		{ newline(); }
+\r?\n|\r		{ newline(); }
 [ \t]+		{ advancepos(yytext); }
 '\\.'		{ savetoken(yytext); yylval.i = yytext[2]; return CHAR; }
 '.'		{ savetoken(yytext); yylval.i = yytext[1]; return CHAR; }

@@ -114,8 +114,8 @@ RNDCHLEVEL	return(RNDCHLEVEL);
 \"[^"]*\"	{ yytext[yyleng - 1] = '\0'; /* discard the trailing \" */
 		  yylval.str = dupstr(yytext + 1); /* skip the first \" */
 		  return STRING; }
-^#.*\n		{ nh_line_number++; }
-\r?\n		{ nh_line_number++; }
+^#.*(\r?\n|\r)		{ nh_line_number++; }
+\r?\n|\r		{ nh_line_number++; }
 [ \t]+		;	/* skip trailing tabs & spaces */
 .		{ return yytext[0]; }
 %%
