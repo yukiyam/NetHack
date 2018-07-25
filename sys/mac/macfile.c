@@ -375,6 +375,31 @@ macunlink(const char *name)
 
 /* ---------------------------------------------------------------------- */
 
+char *
+macfgets(char *s, int n, FILE *stream)
+{
+	int c, i = n;
+	char *ss = s;
+	while(--i){
+		c = fgetc(stream);
+		if(c == EOF){
+			*ss = '\0';
+			if(i == n-1)
+				return NULL;
+			else return s;
+		}
+		*ss = (char)c;
+		ss++;
+		if(c == '\r' || c == '\n'){
+			break;
+		}
+	}
+	*ss = '\0';
+	return s;
+}
+
+/* ---------------------------------------------------------------------- */
+
 boolean
 rsrc_dlb_init(void)
 {

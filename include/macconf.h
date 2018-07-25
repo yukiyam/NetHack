@@ -115,6 +115,17 @@ extern void error(const char *, ...);
 #endif
 #endif
 
+/* 
+ * With CarbonStdCLib.o fgets uses CR as the newline when run on OS9 while
+ * LF on OSX, which results in incompatibility of various data files between
+ * classic and OSX-native environment.  To avoid this incompatibility we use
+ * our own version of fgets.
+ */
+#if defined(__MRC__) && TARGET_API_MAC_CARBON
+extern char * macfgets(char *, int, FILE *);
+#define fgets macfgets
+#endif
+
 /* extended is a data type for extended precision float on some compilers */
 #define extended extended_
 
